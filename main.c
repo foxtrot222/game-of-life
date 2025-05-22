@@ -13,8 +13,11 @@ int main() {
   initscr();
   nodelay(stdscr, TRUE);
   noecho();
-  curs_set(0);
+  curs_set(1);
+  keypad(stdscr, TRUE);
   clear();
+  int ch;
+  int y = 0 , x = 0;
   
   int rows, cols, i, j;
   getmaxyx(stdscr, rows, cols);
@@ -29,12 +32,36 @@ int main() {
   }
 
   for ( i = 0 ; i < rows ; i++ ) {
-    for ( int j = 0 ; j < cols ; j++) {
+    for ( j = 0 ; j < cols ; j++) {
       current_neighbourhood[i][j] = false;
     }
   }
 
-  
+  while (1) {
+    ch = getch();
+    if ( ch == KEY_UP) {
+      if (y > 0) y--;
+    }
+    if ( ch == KEY_DOWN) {
+      y++;
+    }
+    if ( ch == KEY_LEFT) {
+      if (x > 0) x--;
+    }
+    if ( ch == KEY_RIGHT) {
+      x++;
+    }
+    if ( ch == 'a' ) {
+      current_neighbourhood[y][x] = true;
+    }
+    if ( ch == ENTER ) {
+      break;
+    }
+    if ( ch == 'q' ) {
+      break;
+    }
+    move(y,x);
+  }
   while (1) {
     
     wait();
@@ -65,7 +92,6 @@ int main() {
       }
     }
     
-    int ch = getch();
     if (ch == 'q') {
         break;
     }
