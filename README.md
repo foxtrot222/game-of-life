@@ -2,9 +2,26 @@
 
 ![Game of Life demo](assets/game_of_life.gif)
 
-This is a terminal-based implementation of Conway's Game of Life written in C. It uses the `ncurses` library to display the evolving grid with Unicode block characters.
+This is a terminal-based implementation of Conway's Game of Life written in C.  
+It uses the `ncurses` library to display the evolving grid using Unicode block characters.
 
-## How to compile
+## How to Play
+
+- Compile the program by running the `make` command.
+- Run the executable: `./main`
+- Use the **arrow keys** to move the cursor.
+- Press **`a`** to toggle cells (turn them alive).
+- Once your pattern is ready, press **`Enter`** to start the simulation.
+- Press **`q`** at any time to quit.
+
+## Requirements
+
+- `gcc` compiler
+- `ncursesw` library (wide-character support)
+
+## Example (Fedora)
 
 ```bash
+sudo dnf install ncurses-devel
 make
+./main
