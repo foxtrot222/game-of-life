@@ -7,6 +7,7 @@
 void print_cell(bool alive);
 bool update(int neighbours, bool status);
 void wait();
+int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols);
 
 int main() {
   setlocale(LC_ALL, "");
@@ -63,22 +64,14 @@ int main() {
     }
     move(y,x);
   }
-  
+
+  curs_set(0);
   while (1) {
-    curs_set(0);
     wait();
     
     for ( i = 0 ; i < rows ; i++ ) {
       for ( j = 0 ; j < cols ; j++) {
-	neighbours = 0;
-	if (i < rows - 1 && current_neighbourhood[i+1][j]) neighbours++;
-	if (j < cols - 1 && current_neighbourhood[i][j+1]) neighbours++;
-	if (i > 0 && current_neighbourhood[i-1][j]) neighbours++;
-	if (j > 0 && current_neighbourhood[i][j-1]) neighbours++;
-	if (i < rows - 1 && j < cols - 1 && current_neighbourhood[i+1][j+1]) neighbours++;
-	if (i < rows - 1 && j > 0 && current_neighbourhood[i+1][j-1]) neighbours++;
-	if (i > 0 && j < cols - 1 && current_neighbourhood[i-1][j+1]) neighbours++;
-	if (i > 0 && j > 0 && current_neighbourhood[i-1][j-1]) neighbours++;
+	neighbours = count_neighbours(current_neighbourhood, i, j, rows, cols);
 	updated_neighbourhood[i][j] = update(neighbours, current_neighbourhood[i][j]);
       }
     }
@@ -135,4 +128,17 @@ bool update(int neighbours, bool status) {
 void wait() {
   refresh();
   napms(100);
+}
+
+int count_neighbours(bool** neighbour , int i, int j, int rows, int cols) {
+  int neighbours = 0;
+  if (i < rows - 1 && neighbour[i+1][j]) neighbours++;
+  if (j < cols - 1 && neighbour[i][j+1]) neighbours++;
+  if (i > 0 && neighbour[i-1][j]) neighbours++;
+  if (j > 0 && neighbour[i][j-1]) neighbours++;
+  if (i < rows - 1 && j < cols - 1 && neighbour[i+1][j+1]) neighbours++;
+  if (i < rows - 1 && j > 0 && neighbour[i+1][j-1]) neighbours++;
+  if (i > 0 && j < cols - 1 && neighbour[i-1][j+1]) neighbours++;
+  if (i > 0 && j > 0 && neighbour[i-1][j-1]) neighbours++;
+  return neighbours;
 }
