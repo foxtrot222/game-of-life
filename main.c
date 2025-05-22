@@ -3,14 +3,12 @@
 #include <ncurses.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <time.h>
 
 void print_cell(bool alive);
 bool update(int neighbours, bool status);
 void wait();
 
 int main() {
-  srand(time(NULL));
   setlocale(LC_ALL, "");
   initscr();
   nodelay(stdscr, TRUE);
@@ -32,17 +30,11 @@ int main() {
 
   for ( i = 0 ; i < rows ; i++ ) {
     for ( int j = 0 ; j < cols ; j++) {
-      current_neighbourhood[i][j] = (rand() % 2);
+      current_neighbourhood[i][j] = false;
     }
   }
 
-  for ( i = 0 ; i < rows ; i++ ) {
-    for ( int j = 0 ; j < cols ; j++) {
-      move(i,j);
-      print_cell(current_neighbourhood[i][j]);
-    }
-  }
-
+  
   while (1) {
     
     wait();
