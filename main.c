@@ -53,8 +53,9 @@ int main() {
     }
     if ( ch == 'a' ) {
       current_neighbourhood[y][x] = true;
+      print_cell(true);
     }
-    if ( ch == ENTER ) {
+    if ( ch == '\n' ) {
       break;
     }
     if ( ch == 'q' ) {
@@ -62,8 +63,9 @@ int main() {
     }
     move(y,x);
   }
+  
   while (1) {
-    
+    curs_set(0);
     wait();
     
     for ( i = 0 ; i < rows ; i++ ) {
@@ -91,11 +93,11 @@ int main() {
 	print_cell(current_neighbourhood[i][j]);
       }
     }
-    
-    if (ch == 'q') {
+    ch = getch();
+    if ( ch == 'q') {
         break;
     }
-    
+   
   }
 
   for ( i = 0 ; i < rows ; i++ ) {
