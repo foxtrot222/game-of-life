@@ -9,7 +9,7 @@ bool update(int neighbours, bool status);
 void wait();
 int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols);
 void clear_neighbourhood(bool** current, bool** updated, int rows, int cols);
-void draw(bool** neighbourhood);
+void draw(bool** neighbourhood, int rows, int cols);
 
 int main() {
   
@@ -17,12 +17,9 @@ int main() {
   initscr();
   nodelay(stdscr, TRUE);
   noecho();
-  curs_set(1);
   keypad(stdscr, TRUE);
   clear();
-  int ch;
   
-  bool **temp;
   int rows, cols, i, j;
   getmaxyx(stdscr, rows, cols);
   int neighbours;
@@ -40,7 +37,7 @@ int main() {
     }
   }
 
-  draw(current_neighbourhood);
+  draw(current_neighbourhood, rows, cols);
   
   while (1) {
     
@@ -53,7 +50,7 @@ int main() {
       }
     }
 
-    temp = current_neighbourhood;
+    bool** temp = current_neighbourhood;
     current_neighbourhood = updated_neighbourhood;
     updated_neighbourhood = temp;
     
@@ -63,7 +60,7 @@ int main() {
 	print_cell(current_neighbourhood[i][j]);
       }
     }
-    ch = getch();
+    int ch = getch();
     if ( ch == 'q') {
         break;
     }
@@ -124,7 +121,8 @@ void clear_neighbourhood(bool** current, bool** updated, int rows, int cols) {
   free(updated);
 }
 
-void draw(bool** neighbourhood) {
+void draw(bool** neighbourhood, int rows, int cols) {
+  curs_set(1);
   int y = 0 , x = 0;
   int ch;
   while (1) {
@@ -133,13 +131,13 @@ void draw(bool** neighbourhood) {
       if (y > 0) y--;
     }
     if ( ch == KEY_DOWN) {
-      y++;
+      if (y < rows - 1) y++;
     }
     if ( ch == KEY_LEFT) {
       if (x > 0) x--;
     }
     if ( ch == KEY_RIGHT) {
-      x++;
+      if (x < cols - 1) x++;
     }
     if ( ch == 'a' ) {
       neighbourhood[y][x] = true;
