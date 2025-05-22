@@ -143,6 +143,10 @@ void draw(bool** neighbourhood, int rows, int cols) {
       neighbourhood[y][x] = true;
       print_cell(true);
     }
+    if ( ch == 'c' ) {
+      neighbourhood[y][x] = false;
+      print_cell(false);
+    }
     if ( ch == '\n' ) {
       break;
     }

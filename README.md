@@ -11,6 +11,7 @@ It uses the `ncurses` library to display the evolving grid using Unicode block c
 - Run the executable: `./main`
 - Use the **arrow keys** to move the cursor.
 - Press **`a`** to toggle cells (turn them alive).
+- Press **`c`** to toggle cells (turn them dead).
 - Once your pattern is ready, press **`Enter`** to start the simulation.
 - Press **`q`** at any time to quit.
 
