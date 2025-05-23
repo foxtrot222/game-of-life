@@ -154,6 +154,7 @@ void draw(bool** neighbourhood, int rows, int cols) {
       break;
     }
     move(y,x);
+    napms(10);
   }
   curs_set(0);
 }
