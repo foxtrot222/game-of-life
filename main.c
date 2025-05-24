@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void print_cell(bool alive);
 bool update(int neighbours, bool status);
@@ -14,11 +15,12 @@ void draw(bool** neighbourhood, int rows, int cols);
 int main() {
   
   setlocale(LC_ALL, "");
-  initscr();
+  
   if (initscr() == NULL) {
     fprintf(stderr, "Error initializing ncurses.\n");
     return 1;
   }
+  
   nodelay(stdscr, TRUE);
   cbreak();
   noecho();
@@ -28,6 +30,7 @@ int main() {
   int rows, cols, i, j;
   getmaxyx(stdscr, rows, cols);
   int neighbours;
+  
   bool **current_neighbourhood = malloc( rows * sizeof(bool*));
   if (current_neighbourhood == NULL) {
     endwin();
@@ -56,6 +59,7 @@ int main() {
         return 1;
     }
   }
+  
   for ( i = 0 ; i < rows ; i++ ) {
     for ( j = 0 ; j < cols ; j++) {
       current_neighbourhood[i][j] = false;
@@ -65,6 +69,7 @@ int main() {
   draw(current_neighbourhood, rows, cols);
   
   while (1) {
+    
     wait();
    
     for ( i = 0 ; i < rows ; i++ ) {
@@ -88,12 +93,11 @@ int main() {
     if ( ch == 'q') {
         break;
     }
-   
+    
   }
 
   clear_neighbourhood(current_neighbourhood, rows, cols);
-  clear_neighbourhood(updated_neighbourhood, rows, cols);
-  
+  clear_neighbourhood(updated_neighbourhood, rows, cols);  
   refresh();
   endwin();
   return 0;
@@ -178,7 +182,7 @@ void draw(bool** neighbourhood, int rows, int cols) {
       clear_neighbourhood(neighbourhood, rows, cols);
       refresh();
       endwin();
-      exit(1);
+      exit(0);
     }
     move(y,x);
     napms(10);
