@@ -8,7 +8,7 @@ void print_cell(bool alive);
 bool update(int neighbours, bool status);
 void wait();
 int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols);
-void clear_neighbourhood(bool** current, bool** updated, int rows, int cols);
+void clear_neighbourhood(bool** neighbourhood, int rows, int cols);
 void draw(bool** neighbourhood, int rows, int cols);
 
 int main() {
@@ -39,21 +39,21 @@ int main() {
     if (current_neighbourhood[i] == NULL) {
         endwin();
         fprintf(stderr, "Memory allocation failed for current_neighbourhood[%d].\n", i);
-        exit(EXIT_FAILURE);
+        return 1;
     }
   }
   bool **updated_neighbourhood = malloc( rows * sizeof(bool*));
   if (updated_neighbourhood == NULL) {
     endwin();
     fprintf(stderr, "Memory allocation failed for updated_neighbourhood.\n");
-    exit(EXIT_FAILURE);
+    return 1;
   }
   for ( i = 0 ; i < rows ; i++ ) {
     updated_neighbourhood[i] = malloc( cols * sizeof(bool));
     if (updated_neighbourhood[i] == NULL) {
         endwin();
         fprintf(stderr, "Memory allocation failed for updated_neighbourhood[%d].\n", i);
-        exit(EXIT_FAILURE);
+        return 1;
     }
   }
   for ( i = 0 ; i < rows ; i++ ) {
@@ -91,7 +91,9 @@ int main() {
    
   }
 
-  clear_neighbourhood(current_neighbourhood, updated_neighbourhood, rows, cols);
+  clear_neighbourhood(current_neighbourhood, rows, cols);
+  clear_neighbourhood(updated_neighbourhood, rows, cols);
+  
   refresh();
   endwin();
   return 0;
@@ -136,13 +138,11 @@ int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols) {
   return neighbours;
 }
 
-void clear_neighbourhood(bool** current, bool** updated, int rows, int cols) {
+void clear_neighbourhood(bool** neighbourhood, int rows, int cols) {
   for ( int i = 0 ; i < rows ; i++ ) {
-    free(current[i]);
-    free(updated[i]);
+    free(neighbourhood[i]);
   }
-  free(current);
-  free(updated);
+  free(neighbourhood);
 }
 
 void draw(bool** neighbourhood, int rows, int cols) {
@@ -175,7 +175,10 @@ void draw(bool** neighbourhood, int rows, int cols) {
       break;
     }
     if ( ch == 'q' ) {
-      break;
+      clear_neighbourhood(neighbourhood, rows, cols);
+      refresh();
+      endwin();
+      exit(1);
     }
     move(y,x);
     napms(10);
