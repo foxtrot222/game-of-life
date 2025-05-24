@@ -16,6 +16,7 @@ int main() {
   setlocale(LC_ALL, "");
   initscr();
   nodelay(stdscr, TRUE);
+  cbreak();
   noecho();
   keypad(stdscr, TRUE);
   clear();
@@ -36,11 +37,10 @@ int main() {
       current_neighbourhood[i][j] = false;
     }
   }
-
+  
   draw(current_neighbourhood, rows, cols);
   
   while (1) {
-    
     wait();
    
     for ( i = 0 ; i < rows ; i++ ) {
@@ -99,16 +99,16 @@ void wait() {
   napms(100);
 }
 
-int count_neighbours(bool** neighbour , int i, int j, int rows, int cols) {
+int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols) {
   int neighbours = 0;
-  if (i < rows - 1 && neighbour[i+1][j]) neighbours++;
-  if (j < cols - 1 && neighbour[i][j+1]) neighbours++;
-  if (i > 0 && neighbour[i-1][j]) neighbours++;
-  if (j > 0 && neighbour[i][j-1]) neighbours++;
-  if (i < rows - 1 && j < cols - 1 && neighbour[i+1][j+1]) neighbours++;
-  if (i < rows - 1 && j > 0 && neighbour[i+1][j-1]) neighbours++;
-  if (i > 0 && j < cols - 1 && neighbour[i-1][j+1]) neighbours++;
-  if (i > 0 && j > 0 && neighbour[i-1][j-1]) neighbours++;
+  if (i < rows - 1 && neighbourhood[i+1][j]) neighbours++;
+  if (j < cols - 1 && neighbourhood[i][j+1]) neighbours++;
+  if (i > 0 && neighbourhood[i-1][j]) neighbours++;
+  if (j > 0 && neighbourhood[i][j-1]) neighbours++;
+  if (i < rows - 1 && j < cols - 1 && neighbourhood[i+1][j+1]) neighbours++;
+  if (i < rows - 1 && j > 0 && neighbourhood[i+1][j-1]) neighbours++;
+  if (i > 0 && j < cols - 1 && neighbourhood[i-1][j+1]) neighbours++;
+  if (i > 0 && j > 0 && neighbourhood[i-1][j-1]) neighbours++;
   return neighbours;
 }
 
