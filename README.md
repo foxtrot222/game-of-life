@@ -20,9 +20,3 @@ It uses the `ncurses` library to display the evolving grid using Unicode block c
 - `gcc` compiler
 - `ncursesw` library (wide-character support)
 
-## Example (Fedora)
-
-```bash
-sudo dnf install ncurses-devel
-make
-./main
