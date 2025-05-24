@@ -15,6 +15,10 @@ int main() {
   
   setlocale(LC_ALL, "");
   initscr();
+  if (initscr() == NULL) {
+    fprintf(stderr, "Error initializing ncurses.\n");
+    return 1;
+  }
   nodelay(stdscr, TRUE);
   cbreak();
   noecho();
@@ -25,12 +29,32 @@ int main() {
   getmaxyx(stdscr, rows, cols);
   int neighbours;
   bool **current_neighbourhood = malloc( rows * sizeof(bool*));
+  if (current_neighbourhood == NULL) {
+    endwin();
+    fprintf(stderr, "Memory allocation failed for current_neighbourhood.\n");
+    return 1;
+  }
   for ( i = 0 ; i < rows ; i++ ) {
     current_neighbourhood[i] = malloc( cols * sizeof(bool));
+    if (current_neighbourhood[i] == NULL) {
+        endwin();
+        fprintf(stderr, "Memory allocation failed for current_neighbourhood[%d].\n", i);
+        exit(EXIT_FAILURE);
+    }
   }
   bool **updated_neighbourhood = malloc( rows * sizeof(bool*));
+  if (updated_neighbourhood == NULL) {
+    endwin();
+    fprintf(stderr, "Memory allocation failed for updated_neighbourhood.\n");
+    exit(EXIT_FAILURE);
+  }
   for ( i = 0 ; i < rows ; i++ ) {
     updated_neighbourhood[i] = malloc( cols * sizeof(bool));
+    if (updated_neighbourhood[i] == NULL) {
+        endwin();
+        fprintf(stderr, "Memory allocation failed for updated_neighbourhood[%d].\n", i);
+        exit(EXIT_FAILURE);
+    }
   }
   for ( i = 0 ; i < rows ; i++ ) {
     for ( j = 0 ; j < cols ; j++) {
