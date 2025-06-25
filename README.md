@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Tirth Kavathiya <tirthkavathiya@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Conway's Game of Life in C
 
 ![Game of Life demo](assets/game_of_life.gif)
