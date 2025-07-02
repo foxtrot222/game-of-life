@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2025 Tirth Kavathiya <tirthkavathiya@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+* Conway's Game of Life in C
+
+[[file:assets/game_of_life.gif]]
+
+A terminal-based implementation of Conway's Game of Life written in C.  
+It uses the ~ncurses~ library to display the evolving grid using Unicode block characters.
+
+** Requirements
+
+- gcc  
+- make  
+- ncursesw  
+
+** Installing
+
+Clone the repository, build the project using `make`, and run the program:
+
+#+begin_src shell
+git clone https://github.com/foxtrot222/game_of_life.git
+cd game_of_life
+make
+./game_of_life
+#+end_src
+
+** How to Play
+
+- Use the *arrow keys* to move the cursor.
+- Press *a* to toggle cells (make them alive).
+- Press *c* to toggle cells (make them dead).
+- Once your pattern is ready, press *Enter* to start the simulation.
+- Press *q* at any time to quit.
+
+** License
+
+This project is licensed under the GNU General Public License v3.0 or later.  
+See the full license text in [[file:LICENSES/GPL-3.0-or-later.txt]].
