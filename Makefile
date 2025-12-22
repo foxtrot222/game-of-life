@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-game_of_life: ./src/game_of_life.c
-	gcc -Wall -o game_of_life ./src/game_of_life.c -lncursesw
+gol: ./src/gol.c
+	gcc -Wall -o gol ./src/gol.c -lncursesw
 
 clean:
-	rm -rf game_of_life
+	rm -rf gol

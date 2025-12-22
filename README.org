@@ -19,10 +19,9 @@ It uses the ~ncurses~ library to display the evolving grid using Unicode block c
 Clone the repository, build the project using `make`, and run the program:
 
 #+begin_src shell
-git clone https://github.com/foxtrot222/game_of_life.git
-cd game_of_life
+cd game-of-life
 make
-./game_of_life
+./gol
 #+end_src
 
 ** How to Play
