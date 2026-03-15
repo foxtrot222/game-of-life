@@ -29,16 +29,24 @@ void wait(int delay) {
   napms(delay);
 }
 
-int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols) {
+int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols, bool toroidal) {
   int neighbours = 0;
-  if (i < rows - 1 && neighbourhood[i+1][j]) neighbours++;
-  if (j < cols - 1 && neighbourhood[i][j+1]) neighbours++;
-  if (i > 0 && neighbourhood[i-1][j]) neighbours++;
-  if (j > 0 && neighbourhood[i][j-1]) neighbours++;
-  if (i < rows - 1 && j < cols - 1 && neighbourhood[i+1][j+1]) neighbours++;
-  if (i < rows - 1 && j > 0 && neighbourhood[i+1][j-1]) neighbours++;
-  if (i > 0 && j < cols - 1 && neighbourhood[i-1][j+1]) neighbours++;
-  if (i > 0 && j > 0 && neighbourhood[i-1][j-1]) neighbours++;
+  int offsets[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1},
+                       {0, 1},   {1, -1}, {1, 0},  {1, 1}};
+
+  for (int k = 0; k < 8; k++) {
+    int ni = i + offsets[k][0];
+    int nj = j + offsets[k][1];
+    if (toroidal) {
+      ni = (ni + rows) % rows;
+      nj = (nj + cols) % cols;
+    } else if (ni < 0 || nj < 0 || ni >= rows || nj >= cols) {
+      continue;
+    }
+    if (neighbourhood[ni][nj])
+      neighbours++;
+  }
+  
   return neighbours;
 }
 
@@ -133,10 +141,10 @@ void init_neighbourhood(bool **neighbourhood, int rows, int cols) {
   }
 }
 
-void simulate(bool **current_neighbourhood, bool** updated_neighbourhood, int rows, int cols) {
+void simulate(bool **current_neighbourhood, bool** updated_neighbourhood, int rows, int cols, bool toroidal) {
   for (int i = 0 ; i < rows ; i++ ) {
     for (int j = 0 ; j < cols ; j++) {
-      int neighbours = count_neighbours(current_neighbourhood, i, j, rows, cols);
+      int neighbours = count_neighbours(current_neighbourhood, i, j, rows, cols, toroidal);
       updated_neighbourhood[i][j] = update(neighbours, current_neighbourhood[i][j]);
     }
   }
