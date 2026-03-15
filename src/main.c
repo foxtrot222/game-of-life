@@ -4,14 +4,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <ncurses.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "funcs.h"
 
 int main(int argc, char **argv) {
-  int delay_tmp;
+  int opt,delay_tmp;
   int delay = 100;
-
+  bool toroidal = true;
+  
   init_ncurses();
   int rows, cols;
   getmaxyx(stdscr, rows, cols);
@@ -25,7 +29,7 @@ int main(int argc, char **argv) {
   while (1) {
     wait(delay);
 
-    simulate(current_neighbourhood, updated_neighbourhood, rows, cols);
+    simulate(current_neighbourhood, updated_neighbourhood, rows, cols, toroidal);
     
     bool** temp = current_neighbourhood;
     current_neighbourhood = updated_neighbourhood;
