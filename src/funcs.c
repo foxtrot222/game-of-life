@@ -24,9 +24,9 @@ bool update(int neighbours, bool status) {
   }
 }
 
-void wait() {
+void wait(int delay) {
   refresh();
-  napms(100);
+  napms(delay);
 }
 
 int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols) {
