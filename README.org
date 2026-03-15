@@ -5,7 +5,7 @@
 
 A terminal-based implementation of Conway's Game of Life written in C.
 It uses the ~ncurses~ library to display the evolving grid using Unicode block characters.
-Wikepedia has [[https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life][an wonderfull page]] related to game of life.
+Wikipedia has [[https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life][an wonderful page]] related to game of life.
 
 #+begin_src
 Usage: ./gol [-d delay] [-t] [-h]
