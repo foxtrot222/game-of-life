@@ -3,8 +3,6 @@
 
 * Conway's Game of Life in C
 
-[[file:assets/game_of_life.gif]]
-
 A terminal-based implementation of Conway's Game of Life written in C.  
 It uses the ~ncurses~ library to display the evolving grid using Unicode block characters.
 
