@@ -3,16 +3,32 @@
 
 * Conway's Game of Life in C
 
-A terminal-based implementation of Conway's Game of Life written in C.  
+A terminal-based implementation of Conway's Game of Life written in C.
 It uses the ~ncurses~ library to display the evolving grid using Unicode block characters.
+Wikepedia has [[https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life][an wonderfull page]] related to game of life.
+
+#+begin_src
+Usage: ./gol [-d delay] [-t] [-h]
+ -d DELAY    Simulation delay time in milliseconds. Default is 100
+ -t          To toggle Toroidal edges. Default is false
+ -h          Show this help message and exit
+How to Play:
+  Use the arrow keys to move the cursor.
+  Press a to toggle cells (make them alive).
+  Press d to toggle cells (make them dead).
+  Once your pattern is ready, press Enter to start the simulation.
+  Press q at any time to quit.
+#+end_src
 
 ** Requirements
 
-- gcc  
-- make  
-- ncursesw  
+- gcc
+- make
+- ncursesw
+- Terminal that supports ncurses and Unicode characters
+- OS: Linux/Unix/macOS
 
-** Installing
+** Building
 
 Clone the repository, build the project using `make`, and run the program:
 
@@ -22,15 +38,7 @@ make
 ./gol
 #+end_src
 
-** How to Play
-
-- Use the *arrow keys* to move the cursor.
-- Press *a* to toggle cells (make them alive).
-- Press *d* to toggle cells (make them dead).
-- Once your pattern is ready, press *Enter* to start the simulation.
-- Press *q* at any time to quit.
-
 ** License
 
-This project is licensed under the GNU General Public License v3.0 or later.  
+This project is licensed under the GNU General Public License v3.0 or later.
 See the full license text in [[file:LICENSES/GPL-3.0-or-later.txt]].
