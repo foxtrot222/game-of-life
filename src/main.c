@@ -12,9 +12,8 @@
 #include "funcs.h"
 
 int main(int argc, char **argv) {
+  config cfg = { .delay = 100, .toroidal = false};
   int opt,delay_tmp;
-  int delay = 100;
-  bool toroidal = true;
   
   while ((opt = getopt(argc, argv, "s:th")) != -1) {
     switch (opt) {
@@ -31,7 +30,7 @@ int main(int argc, char **argv) {
 	printf("  Press q at any time to quit.\n");
         return 0;
       case 't':
-        toroidal = true;
+        cfg.toroidal = true;
 	break;
       case 's':
         delay_tmp = atoi(optarg);
@@ -39,7 +38,7 @@ int main(int argc, char **argv) {
 	  fprintf(stderr, "Invalid Input\n");
 	  return 1;
         }
-	delay = delay_tmp;
+	cfg.delay = delay_tmp;
         break;
       default:
         fprintf(stderr, "Unknown option\n");
@@ -48,25 +47,24 @@ int main(int argc, char **argv) {
   }
   
   init_ncurses();
-  int rows, cols;
-  getmaxyx(stdscr, rows, cols);
+  getmaxyx(stdscr, cfg.rows, cfg.cols);
+  
+  bool **current_neighbourhood = create_neighbourhood(cfg);
+  bool **updated_neighbourhood = create_neighbourhood(cfg);
 
-  bool **current_neighbourhood = create_neighbourhood(rows, cols);
-  bool **updated_neighbourhood = create_neighbourhood(rows, cols);
-
-  init_neighbourhood(current_neighbourhood, rows, cols);
-  draw(current_neighbourhood, rows, cols);
+  init_neighbourhood(current_neighbourhood, cfg);
+  draw(current_neighbourhood, cfg);
   
   while (1) {
-    wait(delay);
+    wait(cfg.delay);
 
-    simulate(current_neighbourhood, updated_neighbourhood, rows, cols, toroidal);
+    simulate(current_neighbourhood, updated_neighbourhood, cfg);
     
     bool** temp = current_neighbourhood;
     current_neighbourhood = updated_neighbourhood;
     updated_neighbourhood = temp;
 
-    print_neighbourhood(current_neighbourhood, rows, cols);
+    print_neighbourhood(current_neighbourhood, cfg);
     
     int ch = getch();
     if ( ch == 'q') {
@@ -74,8 +72,8 @@ int main(int argc, char **argv) {
     }
   }
 
-  clear_neighbourhood(current_neighbourhood, rows);
-  clear_neighbourhood(updated_neighbourhood, rows);
+  clear_neighbourhood(current_neighbourhood, cfg.rows);
+  clear_neighbourhood(updated_neighbourhood, cfg.rows);
   refresh();
   endwin();
   return 0;

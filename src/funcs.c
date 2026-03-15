@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <locale.h>
+#include "funcs.h"
 
 void print_cell(bool alive) {
   if (alive) {
@@ -29,7 +30,7 @@ void wait(int delay) {
   napms(delay);
 }
 
-int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols, bool toroidal) {
+int count_neighbours(bool** neighbourhood , int i, int j, config cfg) {
   int neighbours = 0;
   int offsets[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1},
                        {0, 1},   {1, -1}, {1, 0},  {1, 1}};
@@ -37,10 +38,10 @@ int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols, bo
   for (int k = 0; k < 8; k++) {
     int ni = i + offsets[k][0];
     int nj = j + offsets[k][1];
-    if (toroidal) {
-      ni = (ni + rows) % rows;
-      nj = (nj + cols) % cols;
-    } else if (ni < 0 || nj < 0 || ni >= rows || nj >= cols) {
+    if (cfg.toroidal) {
+      ni = (ni + cfg.rows) % cfg.rows;
+      nj = (nj + cfg.cols) % cfg.cols;
+    } else if (ni < 0 || nj < 0 || ni >= cfg.rows || nj >= cfg.cols) {
       continue;
     }
     if (neighbourhood[ni][nj])
@@ -57,7 +58,7 @@ void clear_neighbourhood(bool** neighbourhood, int rows) {
   free(neighbourhood);
 }
 
-void draw(bool** neighbourhood, int rows, int cols) {
+void draw(bool** neighbourhood, config cfg) {
   curs_set(1);
   int y = 0 , x = 0;
   int ch;
@@ -67,13 +68,13 @@ void draw(bool** neighbourhood, int rows, int cols) {
       if (y > 0) y--;
     }
     if ( ch == KEY_DOWN) {
-      if (y < rows - 1) y++;
+      if (y < cfg.rows - 1) y++;
     }
     if ( ch == KEY_LEFT) {
       if (x > 0) x--;
     }
     if ( ch == KEY_RIGHT) {
-      if (x < cols - 1) x++;
+      if (x < cfg.cols - 1) x++;
     }
     if ( ch == 'a' ) {
       neighbourhood[y][x] = true;
@@ -87,7 +88,7 @@ void draw(bool** neighbourhood, int rows, int cols) {
       break;
     }
     if ( ch == 'q' ) {
-      clear_neighbourhood(neighbourhood, rows);
+      clear_neighbourhood(neighbourhood, cfg.rows);
       refresh();
       endwin();
       exit(0);
@@ -113,16 +114,16 @@ void init_ncurses() {
   clear();
 }
 
-bool **create_neighbourhood(int rows, int cols) {
-  bool **neighbourhood = malloc(rows * sizeof(bool*));
+bool **create_neighbourhood(config cfg) {
+  bool **neighbourhood = malloc(cfg.rows * sizeof(bool*));
   if (!neighbourhood) {
     endwin();
     fprintf(stderr, "Memory allocation failed.\n");
     exit(1);
   }
   
-  for (int i = 0; i < rows; i++) {
-    neighbourhood[i] = malloc(cols * sizeof(bool));
+  for (int i = 0; i < cfg.rows; i++) {
+    neighbourhood[i] = malloc(cfg.cols * sizeof(bool));
     if (!neighbourhood[i]) {
       endwin();
       fprintf(stderr, "Memory allocation failed.\n");
@@ -133,26 +134,26 @@ bool **create_neighbourhood(int rows, int cols) {
   return neighbourhood;
 }
 
-void init_neighbourhood(bool **neighbourhood, int rows, int cols) {
-  for (int i = 0 ; i < rows ; i++ ) {
-    for (int j = 0 ; j < cols ; j++) {
+void init_neighbourhood(bool **neighbourhood, config cfg) {
+  for (int i = 0 ; i < cfg.rows ; i++ ) {
+    for (int j = 0 ; j < cfg.cols ; j++) {
       neighbourhood[i][j] = false;
     }
   }
 }
 
-void simulate(bool **current_neighbourhood, bool** updated_neighbourhood, int rows, int cols, bool toroidal) {
-  for (int i = 0 ; i < rows ; i++ ) {
-    for (int j = 0 ; j < cols ; j++) {
-      int neighbours = count_neighbours(current_neighbourhood, i, j, rows, cols, toroidal);
+void simulate(bool **current_neighbourhood, bool** updated_neighbourhood, config cfg) {
+  for (int i = 0 ; i < cfg.rows ; i++ ) {
+    for (int j = 0 ; j < cfg.cols ; j++) {
+      int neighbours = count_neighbours(current_neighbourhood, i, j, cfg);
       updated_neighbourhood[i][j] = update(neighbours, current_neighbourhood[i][j]);
     }
   }
 }
 
-void print_neighbourhood(bool **neighbourhood, int rows, int cols) {
-  for (int i = 0 ; i < rows ; i++ ) {
-    for (int j = 0 ; j < cols ; j++ ) {
+void print_neighbourhood(bool **neighbourhood, config cfg) {
+  for (int i = 0 ; i < cfg.rows ; i++ ) {
+    for (int j = 0 ; j < cfg.cols ; j++ ) {
       move(i,j);
       print_cell(neighbourhood[i][j]);
     }
