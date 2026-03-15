@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <wchar.h>
 #include <locale.h>
 #include <ncurses.h>
 #include <stdbool.h>
@@ -177,7 +176,7 @@ void draw(bool** neighbourhood, int rows, int cols) {
       neighbourhood[y][x] = true;
       print_cell(true);
     }
-    if ( ch == 'c' ) {
+    if ( ch == 'd' ) {
       neighbourhood[y][x] = false;
       print_cell(false);
     }
