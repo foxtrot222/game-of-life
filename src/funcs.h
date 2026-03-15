@@ -1,16 +1,23 @@
 #ifndef FUNCS_H
 #define FUNCS_H
 
+typedef struct {
+  int rows;
+  int cols;
+  int delay;
+  bool toroidal;
+} config;
+
 void print_cell(bool alive);
 bool update(int neighbours, bool status);
 void wait(int delay);
-int count_neighbours(bool** neighbourhood , int i, int j, int rows, int cols, bool toroidal);
+int count_neighbours(bool** neighbourhood , int i, int j, config cfg);
 void clear_neighbourhood(bool** neighbourhood, int rows);
-void draw(bool** neighbourhood, int rows, int cols);
+void draw(bool** neighbourhood, config cfg);
 void init_ncurses();
-bool **create_neighbourhood(int rows, int cols);
-void init_neighbourhood(bool **neighbourhood, int rows, int cols);
-void simulate(bool **current_neigbourhood, bool** updated_neighbourhood, int rows, int cols, bool toroidal);
-void print_neighbourhood(bool **neighbourhood, int rows, int cols);
+bool **create_neighbourhood(config cfg);
+void init_neighbourhood(bool **neighbourhood, config cfg);
+void simulate(bool **current_neigbourhood, bool** updated_neighbourhood, config cfg);
+void print_neighbourhood(bool **neighbourhood, config cfg);
   
 #endif
