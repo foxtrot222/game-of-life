@@ -28,7 +28,7 @@ make
 
 - Use the *arrow keys* to move the cursor.
 - Press *a* to toggle cells (make them alive).
-- Press *c* to toggle cells (make them dead).
+- Press *d* to toggle cells (make them dead).
 - Once your pattern is ready, press *Enter* to start the simulation.
 - Press *q* at any time to quit.
 
