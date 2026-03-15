@@ -18,21 +18,21 @@ int main() {
 
   init_neighbourhood(current_neighbourhood, rows, cols);
   draw(current_neighbourhood, rows, cols);
-
+  
   while (1) {
     wait();
 
     simulate(current_neighbourhood, updated_neighbourhood, rows, cols);
-
+    
     bool** temp = current_neighbourhood;
     current_neighbourhood = updated_neighbourhood;
     updated_neighbourhood = temp;
 
     print_neighbourhood(current_neighbourhood, rows, cols);
-
+    
     int ch = getch();
     if ( ch == 'q') {
-	break;
+        break;
     }
   }
 
