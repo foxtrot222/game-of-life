@@ -14,7 +14,7 @@
 int main(int argc, char **argv) {
   config cfg = { .delay = 100, .toroidal = false};
   int opt,delay_tmp;
-  
+
   while ((opt = getopt(argc, argv, "s:th")) != -1) {
     switch (opt) {
       case 'h':
@@ -45,27 +45,27 @@ int main(int argc, char **argv) {
 	return 1;
     }
   }
-  
+
   init_ncurses();
   getmaxyx(stdscr, cfg.rows, cfg.cols);
-  
+
   bool **current_neighbourhood = create_neighbourhood(cfg);
   bool **updated_neighbourhood = create_neighbourhood(cfg);
 
   init_neighbourhood(current_neighbourhood, cfg);
   draw(current_neighbourhood, cfg);
-  
+
   while (1) {
     wait(cfg.delay);
 
     simulate(current_neighbourhood, updated_neighbourhood, cfg);
-    
+
     bool** temp = current_neighbourhood;
     current_neighbourhood = updated_neighbourhood;
     updated_neighbourhood = temp;
 
     print_neighbourhood(current_neighbourhood, cfg);
-    
+
     int ch = getch();
     if ( ch == 'q') {
         break;

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Tirth Kavathiya <tirthkavathiya@gmail.com>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 #include <ncurses.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -6,7 +12,7 @@
 
 void print_cell(bool alive) {
   if (alive) {
-    printw("\u2588"); 
+    printw("\u2588");
   }
   else {
     printw(" ");
@@ -47,7 +53,7 @@ int count_neighbours(bool** neighbourhood , int i, int j, config cfg) {
     if (neighbourhood[ni][nj])
       neighbours++;
   }
-  
+
   return neighbours;
 }
 
@@ -101,12 +107,12 @@ void draw(bool** neighbourhood, config cfg) {
 
 void init_ncurses() {
   setlocale(LC_ALL, "");
-  
+
   if (initscr() == NULL) {
     fprintf(stderr, "Error initializing ncurses.\n");
     exit(1);
   }
-  
+
   nodelay(stdscr, TRUE);
   cbreak();
   noecho();
@@ -121,7 +127,7 @@ bool **create_neighbourhood(config cfg) {
     fprintf(stderr, "Memory allocation failed.\n");
     exit(1);
   }
-  
+
   for (int i = 0; i < cfg.rows; i++) {
     neighbourhood[i] = malloc(cfg.cols * sizeof(bool));
     if (!neighbourhood[i]) {
@@ -130,7 +136,7 @@ bool **create_neighbourhood(config cfg) {
       exit(1);
     }
   }
-  
+
   return neighbourhood;
 }
 
