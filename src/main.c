@@ -8,7 +8,10 @@
 #include <stdbool.h>
 #include "funcs.h"
 
-int main() {
+int main(int argc, char **argv) {
+  int delay_tmp;
+  int delay = 100;
+
   init_ncurses();
   int rows, cols;
   getmaxyx(stdscr, rows, cols);
@@ -20,7 +23,7 @@ int main() {
   draw(current_neighbourhood, rows, cols);
   
   while (1) {
-    wait();
+    wait(delay);
 
     simulate(current_neighbourhood, updated_neighbourhood, rows, cols);
     
