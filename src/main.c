@@ -49,22 +49,22 @@ int main(int argc, char **argv) {
   init_ncurses();
   getmaxyx(stdscr, cfg.rows, cfg.cols);
 
-  bool **current_neighbourhood = create_neighbourhood(cfg);
-  bool **updated_neighbourhood = create_neighbourhood(cfg);
+  bool **current_grid = create_grid(cfg);
+  bool **updated_grid = create_grid(cfg);
 
-  init_neighbourhood(current_neighbourhood, cfg);
-  draw(current_neighbourhood, cfg);
+  init_grid(current_grid, cfg);
+  draw(current_grid, cfg);
 
   while (1) {
     wait(cfg.delay);
 
-    simulate(current_neighbourhood, updated_neighbourhood, cfg);
+    simulate(current_grid, updated_grid, cfg);
 
-    bool** temp = current_neighbourhood;
-    current_neighbourhood = updated_neighbourhood;
-    updated_neighbourhood = temp;
+    bool** temp = current_grid;
+    current_grid = updated_grid;
+    updated_grid = temp;
 
-    print_neighbourhood(current_neighbourhood, cfg);
+    print_grid(current_grid, cfg);
 
     int ch = getch();
     if ( ch == 'q') {
@@ -72,8 +72,8 @@ int main(int argc, char **argv) {
     }
   }
 
-  clear_neighbourhood(current_neighbourhood, cfg.rows);
-  clear_neighbourhood(updated_neighbourhood, cfg.rows);
+  clear_grid(current_grid, cfg.rows);
+  clear_grid(updated_grid, cfg.rows);
   refresh();
   endwin();
   return 0;

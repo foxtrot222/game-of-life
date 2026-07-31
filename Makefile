@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-CFLAGS = -Wall -Wextra -fdiagnostics-color=auto -lncursesw
-DIAG = -g -O0 -fanalyzer -fsanitize=address,undefined
+CFLAGS = -Wall -Wextra -lncursesw
+DIAG = -g
 TARGET = gol
 SOURCE = src/main.c src/funcs.c
 

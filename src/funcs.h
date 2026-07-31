@@ -16,24 +16,24 @@ typedef struct {
 
 void init_ncurses();
 
-bool **create_neighbourhood(config cfg);
+bool **create_grid(config cfg);
 
-void init_neighbourhood(bool **neighbourhood, config cfg);
+void init_grid(bool **grid, config cfg);
 
-void clear_neighbourhood(bool **neighbourhood, int rows);
+void clear_grid(bool **grid, int rows);
 
 void wait(int delay);
 
 void print_cell(bool alive);
 
-bool update(int neighbours, bool status);
+bool update(int adjacent_cells, bool status);
 
-void draw(bool **neighbourhood, config cfg);
+void draw(bool **grid, config cfg);
 
-int count_neighbours(bool **neighbourhood, int i, int j, config cfg);
+int count_adjacent_cells(bool **grid, int i, int j, config cfg);
 
-void simulate(bool **current_neigbourhood, bool **updated_neighbourhood,config cfg);
+void simulate(bool **current_grid, bool **updated_grid,config cfg);
 
-void print_neighbourhood(bool **neighbourhood, config cfg);
+void print_grid(bool **grid, config cfg);
 
 #endif

@@ -10,8 +10,8 @@
 #include <locale.h>
 #include "funcs.h"
 
-void print_cell(bool alive) {
-  if (alive) {
+void print_cell(bool status) {
+  if (status) {
     printw("\u2588");
   }
   else {
@@ -19,11 +19,11 @@ void print_cell(bool alive) {
   }
 }
 
-bool update(int neighbours, bool status) {
-  if ( !status && neighbours == 3 ) {
+bool update(int adjacent_cells, bool status) {
+  if ( !status && adjacent_cells == 3 ) {
     return true;
   }
-  else if ( status && (neighbours == 2 || neighbours == 3) ) {
+  else if ( status && (adjacent_cells == 2 || adjacent_cells == 3) ) {
     return true;
   }
   else {
@@ -36,8 +36,8 @@ void wait(int delay) {
   napms(delay);
 }
 
-int count_neighbours(bool** neighbourhood , int i, int j, config cfg) {
-  int neighbours = 0;
+int count_adjacent_cells(bool** grid , int i, int j, config cfg) {
+  int adjacent_cells = 0;
   int offsets[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1},
                        {0, 1},   {1, -1}, {1, 0},  {1, 1}};
 
@@ -50,21 +50,21 @@ int count_neighbours(bool** neighbourhood , int i, int j, config cfg) {
     } else if (ni < 0 || nj < 0 || ni >= cfg.rows || nj >= cfg.cols) {
       continue;
     }
-    if (neighbourhood[ni][nj])
-      neighbours++;
+    if (grid[ni][nj])
+      adjacent_cells++;
   }
 
-  return neighbours;
+  return adjacent_cells;
 }
 
-void clear_neighbourhood(bool** neighbourhood, int rows) {
+void clear_grid(bool** grid, int rows) {
   for ( int i = 0 ; i < rows ; i++ ) {
-    free(neighbourhood[i]);
+    free(grid[i]);
   }
-  free(neighbourhood);
+  free(grid);
 }
 
-void draw(bool** neighbourhood, config cfg) {
+void draw(bool** grid, config cfg) {
   curs_set(1);
   int y = 0 , x = 0;
   int ch;
@@ -83,18 +83,18 @@ void draw(bool** neighbourhood, config cfg) {
       if (x < cfg.cols - 1) x++;
     }
     if ( ch == 'a' ) {
-      neighbourhood[y][x] = true;
+      grid[y][x] = true;
       print_cell(true);
     }
     if ( ch == 'd' ) {
-      neighbourhood[y][x] = false;
+      grid[y][x] = false;
       print_cell(false);
     }
     if ( ch == '\n' ) {
       break;
     }
     if ( ch == 'q' ) {
-      clear_neighbourhood(neighbourhood, cfg.rows);
+      clear_grid(grid, cfg.rows);
       refresh();
       endwin();
       exit(0);
@@ -120,48 +120,48 @@ void init_ncurses() {
   clear();
 }
 
-bool **create_neighbourhood(config cfg) {
-  bool **neighbourhood = malloc(cfg.rows * sizeof(bool*));
-  if (!neighbourhood) {
+bool **create_grid(config cfg) {
+  bool **grid = malloc(cfg.rows * sizeof(bool*));
+  if (!grid) {
     endwin();
     fprintf(stderr, "Memory allocation failed.\n");
     exit(1);
   }
 
   for (int i = 0; i < cfg.rows; i++) {
-    neighbourhood[i] = malloc(cfg.cols * sizeof(bool));
-    if (!neighbourhood[i]) {
+    grid[i] = malloc(cfg.cols * sizeof(bool));
+    if (!grid[i]) {
       endwin();
       fprintf(stderr, "Memory allocation failed.\n");
       exit(1);
     }
   }
 
-  return neighbourhood;
+  return grid;
 }
 
-void init_neighbourhood(bool **neighbourhood, config cfg) {
+void init_grid(bool **grid, config cfg) {
   for (int i = 0 ; i < cfg.rows ; i++ ) {
     for (int j = 0 ; j < cfg.cols ; j++) {
-      neighbourhood[i][j] = false;
+      grid[i][j] = false;
     }
   }
 }
 
-void simulate(bool **current_neighbourhood, bool** updated_neighbourhood, config cfg) {
+void simulate(bool **current_grid, bool** updated_grid, config cfg) {
   for (int i = 0 ; i < cfg.rows ; i++ ) {
     for (int j = 0 ; j < cfg.cols ; j++) {
-      int neighbours = count_neighbours(current_neighbourhood, i, j, cfg);
-      updated_neighbourhood[i][j] = update(neighbours, current_neighbourhood[i][j]);
+      int adjacent_cells = count_adjacent_cells(current_grid, i, j, cfg);
+      updated_grid[i][j] = update(adjacent_cells, current_grid[i][j]);
     }
   }
 }
 
-void print_neighbourhood(bool **neighbourhood, config cfg) {
+void print_grid(bool **grid, config cfg) {
   for (int i = 0 ; i < cfg.rows ; i++ ) {
     for (int j = 0 ; j < cfg.cols ; j++ ) {
       move(i,j);
-      print_cell(neighbourhood[i][j]);
+      print_cell(grid[i][j]);
     }
   }
 }
