@@ -24,8 +24,7 @@ int main(int argc, char **argv) {
         printf(" -h          Show this help message and exit\n");
 	printf("How to Play:\n");
 	printf("  Use the arrow keys to move the cursor.\n");
-	printf("  Press a to toggle cells (make them alive).\n");
-	printf("  Press d to toggle cells (make them dead).\n");
+	printf("  Press t to toggle cells.\n");
 	printf("  Once your pattern is ready, press Enter to start the simulation.\n");
 	printf("  Press q at any time to quit.\n");
         return 0;

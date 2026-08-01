@@ -82,13 +82,10 @@ void draw(bool** grid, config cfg) {
     if ( ch == KEY_RIGHT) {
       if (x < cfg.cols - 1) x++;
     }
-    if ( ch == 'a' ) {
-      grid[y][x] = true;
-      print_cell(true);
-    }
-    if ( ch == 'd' ) {
-      grid[y][x] = false;
-      print_cell(false);
+    if (ch == 't') {
+      bool t = grid[y][x];
+      grid[y][x] = !t;
+      print_cell(!t);
     }
     if ( ch == '\n' ) {
       break;

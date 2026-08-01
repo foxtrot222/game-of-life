@@ -25,8 +25,7 @@ Options:
 
 How to Play:
   Use the arrow keys to move the cursor.
-  Press a to toggle cells (make them alive).
-  Press d to toggle cells (make them dead).
+  Press t to toggle cells.
   Once your pattern is ready, press Enter to start the simulation.
   Press q at any time to quit.
 ```
