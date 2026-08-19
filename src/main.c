@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2025 Tirth Kavathiya <tirthkavathiya@gmail.com>
- *
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>

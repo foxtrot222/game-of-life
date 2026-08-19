@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: 2026 Tirth Kavathiya <tirthkavathiya@gmail.com>
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 CFLAGS = -Wall -Wextra -lncursesw
 DIAG = -g
 TARGET = gol
